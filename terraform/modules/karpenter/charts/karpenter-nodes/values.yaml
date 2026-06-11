@@ -1,0 +1,5 @@
+# Overridden by the karpenter module via Helm values.
+clusterName: ""
+nodeRole: ""
+amiAlias: "bottlerocket@v1.62.0"
+tags: {}

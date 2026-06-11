@@ -1,0 +1,44 @@
+# Demo: no architecture preference — let Karpenter pick the cheapest capacity.
+#
+# With no nodeSelector on kubernetes.io/arch, the pods can land on either x86 or
+# Graviton. Combined with the Spot-first NodePool, Karpenter's price-capacity
+# allocation will usually place them on Graviton Spot — the cheapest option —
+# which is exactly the price/performance posture the company asked for.
+#
+#   kubectl apply -f deploy-multiarch.yaml
+#   kubectl get pods -o wide -l app=hello-multiarch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-multiarch
+  labels:
+    app: hello-multiarch
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-multiarch
+  template:
+    metadata:
+      labels:
+        app: hello-multiarch
+    spec:
+      # Spread replicas across nodes for availability during consolidation.
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: hello-multiarch
+      containers:
+        - name: nginx
+          image: public.ecr.aws/nginx/nginx:stable
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 256Mi

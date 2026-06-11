@@ -1,0 +1,6 @@
+apiVersion: v2
+name: karpenter-nodes
+description: Default Karpenter NodePool + EC2NodeClass (x86 + Graviton, Spot-first)
+type: application
+version: 0.1.0
+appVersion: "1.13.0"

@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="CI/CD Pipeline" id="cicd">
+    <mxGraphModel dx="1200" dy="800" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="480" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="30" y="45" width="1860" height="400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dev" value="Developer" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;aspect=fixed;shape=mxgraph.aws4.user;fillColor=#232F3E;" parent="1" vertex="1">
+          <mxGeometry x="50" y="150" width="56" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cilane" value="CI pipeline — OIDC-federated, no static cloud credentials" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#147EBA;dashed=1;fontColor=#0F5C8C;fontSize=10;fontStyle=2;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" parent="1" vertex="1">
+          <mxGeometry x="170" y="120" width="1040" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="Lint &amp; Unit Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="180" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="Build multi-arch&#10;(Buildx amd64+arm64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="330" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="Generate SBOM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="480" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" value="Scan&#10;SAST / Trivy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="630" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" value="Sign image&#10;(cosign)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="780" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" value="Push → ECR&#10;scan-on-push (Inspector)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="930" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" value="Update Helm tag&#10;(git commit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#147EBA;fontColor=#0F5C8C;fontSize=10;verticalAlign=middle;align=center;arcSize=18;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="150" width="120" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="iam" value="IAM role (OIDC)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;aspect=fixed;shape=mxgraph.aws4.resourceIcon;fillColor=#DD3522;resIcon=mxgraph.aws4.identity_and_access_management;" parent="1" vertex="1">
+          <mxGeometry x="476" y="280" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="ecr" value="ECR (Shared Services)&#10;immutable tag · scan-on-push" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;aspect=fixed;shape=mxgraph.aws4.resourceIcon;fillColor=#ED7100;resIcon=mxgraph.aws4.ecr;" parent="1" vertex="1">
+          <mxGeometry x="966" y="280" width="48" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="argo" value="Argo CD&#10;GitOps reconcile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFB;strokeColor=#8C4FFF;fontColor=#5B2D9E;fontSize=12;verticalAlign=middle;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1300" y="150" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="envdev" value="Dev" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;aspect=fixed;shape=mxgraph.aws4.resourceIcon;fillColor=#ED7100;resIcon=mxgraph.aws4.eks;" parent="1" vertex="1">
+          <mxGeometry x="1600" y="60" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="envstg" value="Staging (approval)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;aspect=fixed;shape=mxgraph.aws4.resourceIcon;fillColor=#ED7100;resIcon=mxgraph.aws4.eks;" parent="1" vertex="1">
+          <mxGeometry x="1600" y="166" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="envprod" value="Production (approval)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;aspect=fixed;shape=mxgraph.aws4.resourceIcon;fillColor=#ED7100;resIcon=mxgraph.aws4.eks;" parent="1" vertex="1">
+          <mxGeometry x="1600" y="272" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="envcap" value="EKS clusters · promote dev → staging → prod (git + approvals)" style="text;html=1;align=center;verticalAlign=middle;fontColor=#5A6B7B;fontSize=10;fontStyle=2;" parent="1" vertex="1">
+          <mxGeometry x="1490" y="345" width="320" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ce0" value="git push" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="dev" target="s1" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s1" target="s2" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s2" target="s3" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s3" target="s4" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s4" target="s5" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s5" target="s6" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s6" target="s7" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ce7" value="reconcile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;" parent="1" source="s7" target="argo" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="cepush" value="push image" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ED7100;fontColor=#ED7100;fontSize=9;endArrow=block;endFill=1;dashed=1;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s6" target="ecr" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ceoidc" value="OIDC → short-lived role" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#DD3522;fontColor=#DD3522;fontSize=9;endArrow=block;endFill=1;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s2" target="iam" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="cedev" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="argo" target="envdev" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="cestg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="argo" target="envstg" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ceprod" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#232F3E;fontColor=#232F3E;fontSize=10;endArrow=block;endFill=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="argo" target="envprod" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

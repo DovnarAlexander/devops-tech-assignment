@@ -1,0 +1,42 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
+    spec:
+      requirements:
+        # Both architectures allowed: build multi-arch images and let scheduling
+        # (or cost) decide. A pod's nodeSelector on kubernetes.io/arch pins it.
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64", "arm64"]
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        # Spot + on-demand both allowed. Karpenter's price-capacity-optimized
+        # allocation picks Spot when available (cheaper) and falls back to
+        # on-demand when it isn't — Spot-first without a separate pool.
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["spot", "on-demand"]
+        # A broad, diversified instance set keeps the Spot pool deep enough to
+        # avoid mass interruptions and lets consolidation find a tight fit.
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["t", "c", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["2"]
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: default
+      # Recycle nodes periodically so they pick up fresh AMIs/patches.
+      expireAfter: 720h
+  limits:
+    cpu: "20"
+  disruption:
+    # Continuously bin-pack down to the cheapest layout that still fits pods.
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 1m

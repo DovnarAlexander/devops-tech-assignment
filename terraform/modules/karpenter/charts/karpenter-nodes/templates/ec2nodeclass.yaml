@@ -1,0 +1,44 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  # IAM role Karpenter attaches to launched nodes; Karpenter manages the
+  # matching instance profile itself.
+  role: {{ .Values.nodeRole | quote }}
+  # Pinned Bottlerocket AMI (minimal, immutable container OS). Pinned — not
+  # @latest — so AMI bumps are a reviewed change, not an implicit one.
+  amiSelectorTerms:
+    - alias: {{ .Values.amiAlias | quote }}
+  # Encrypt node storage explicitly rather than relying on the AMI-family default.
+  # Bottlerocket uses two volumes: /dev/xvda (OS) and /dev/xvdb (container images,
+  # logs, ephemeral writes — where any workload data lands). Both encrypted.
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 4Gi
+        volumeType: gp3
+        encrypted: true
+    - deviceName: /dev/xvdb
+      ebs:
+        volumeSize: 50Gi
+        volumeType: gp3
+        encrypted: true
+  # Enforce IMDSv2 and block pods (off the host network) from reaching node
+  # credentials via IMDS. These match Karpenter's secure defaults, set explicitly.
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 1
+    httpTokens: required
+  # Discover subnets and security groups by the tag set in the vpc/eks modules.
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.clusterName | quote }}
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.clusterName | quote }}
+  {{- with .Values.tags }}
+  tags:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

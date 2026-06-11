@@ -1,0 +1,38 @@
+# Demo: pin a Deployment to x86 (Intel/AMD) nodes.
+#
+# The only thing that forces the architecture is the nodeSelector on
+# kubernetes.io/arch. Karpenter sees the pending pods, launches an amd64 node
+# from the default NodePool (Spot-first), and schedules them.
+#
+#   kubectl apply -f deploy-amd64.yaml
+#   kubectl get pods -o wide -l app=hello-amd64
+#   kubectl get nodes -L kubernetes.io/arch -L karpenter.sh/capacity-type
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-amd64
+  labels:
+    app: hello-amd64
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-amd64
+  template:
+    metadata:
+      labels:
+        app: hello-amd64
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      containers:
+        - name: nginx
+          image: public.ecr.aws/nginx/nginx:stable
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 256Mi

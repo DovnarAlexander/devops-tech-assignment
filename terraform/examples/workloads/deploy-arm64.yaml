@@ -1,0 +1,37 @@
+# Demo: pin a Deployment to arm64 (Graviton) nodes.
+#
+# Identical to deploy-amd64.yaml except for the nodeSelector. Because the image
+# is multi-arch, the same tag runs on Graviton with no other change — Karpenter
+# launches an arm64 Spot node to fit it.
+#
+#   kubectl apply -f deploy-arm64.yaml
+#   kubectl get pods -o wide -l app=hello-arm64
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-arm64
+  labels:
+    app: hello-arm64
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-arm64
+  template:
+    metadata:
+      labels:
+        app: hello-arm64
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
+      containers:
+        - name: nginx
+          image: public.ecr.aws/nginx/nginx:stable
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 256Mi
